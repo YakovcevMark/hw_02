@@ -44,7 +44,7 @@ describe(RoutePaths.blogs, () => {
     })
 
     it('post with incorrect name:', async () => {
-        const resp = await request(app).post(RoutePaths.blogs).send({...blogCreate, name: null})
+        const resp = await request(app).post(RoutePaths.blogs).send({...blogCreate, name: '             '})
 
 
         expect(resp.status).toBe(HTTP_STATUS_CODES.CLIENT_ERROR_400)

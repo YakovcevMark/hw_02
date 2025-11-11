@@ -13,7 +13,7 @@ const blogsRouter = Router()
 blogsRouter.get('', getBlogsHandler)
 blogsRouter.get('/:id', getBlogByIdHandler)
 blogsRouter.post('',
-    superAdminGuardMiddleware,
+    // superAdminGuardMiddleware,
     blogValidationMiddleware,
     inputValidationResultMiddleware,
     createBlogHandler

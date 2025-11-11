@@ -20,6 +20,7 @@ export const stringValidation = ({name, max, min}: StringValidation) => {
     }
     if (min) {
         scheme
+            .trim()
             .isLength({min}).withMessage(validationMessages.stringMinLength(min))
     }
     return scheme;
