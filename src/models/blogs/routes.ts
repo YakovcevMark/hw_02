@@ -12,7 +12,12 @@ const blogsRouter = Router()
 
 blogsRouter.get('', getBlogsHandler)
 blogsRouter.get('/:id', getBlogByIdHandler)
-blogsRouter.post('', superAdminGuardMiddleware, blogValidationMiddleware, inputValidationResultMiddleware, createBlogHandler)
+blogsRouter.post('',
+    superAdminGuardMiddleware,
+    blogValidationMiddleware,
+    inputValidationResultMiddleware,
+    createBlogHandler
+)
 blogsRouter.put('/:id', superAdminGuardMiddleware, blogValidationMiddleware, inputValidationResultMiddleware, updateBlogHandler)
 blogsRouter.delete('/:id', superAdminGuardMiddleware, deleteBlogHandler)
 
