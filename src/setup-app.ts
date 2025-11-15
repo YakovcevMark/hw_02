@@ -1,7 +1,7 @@
 import express, {Express} from "express";
 import {HTTP_STATUS_CODES} from "./core/constants/http-status-codes";
 import {blogsRepository} from "./models/blogs/repositories/db-repository";
-import {postsRepository} from "./models/posts/repositories/memory-repository";
+import {postsRepository} from "./models/posts/repositories/db-repository";
 import {RoutePaths} from "./models/paths";
 import {blogsRouter} from "./models/blogs/routes";
 import {postsRouter} from "./models/posts/routes";
