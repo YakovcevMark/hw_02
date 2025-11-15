@@ -27,7 +27,6 @@ export const stringValidation = ({name, max, min}: StringValidation) => {
 }
 
 export const idValidation = (props: StringValidation) => stringValidation(props)
-    .isNumeric().withMessage(validationMessages.numericString)
 
 export const urlValidation = (props: StringValidation) => stringValidation(props)
     .isURL().withMessage(validationMessages.url)

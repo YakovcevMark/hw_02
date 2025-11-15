@@ -39,7 +39,11 @@ class BlogsRepository {
 
     public update = async (id: string, body: BlogInputModel): Promise<boolean> => {
 
-        const blog = await blogsCollection.findOne({_id: new ObjectId(id)});
+        const blog = await blogsCollection.findOne(
+            {
+                _id: new ObjectId(id)
+            }
+        );
 
         if (!blog) {
             return false;
