@@ -30,7 +30,7 @@ class BlogsRepository {
         const entity = {
             id: String(+new Date()),
             createdAt: new Date().toISOString(),
-            isMembership: true,
+            isMembership: false,
             ...body,
         }
         const result = await blogsCollection.insertOne(entity);
