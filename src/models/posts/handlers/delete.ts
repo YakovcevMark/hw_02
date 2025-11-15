@@ -1,10 +1,10 @@
 import {Request, Response} from "express";
-import {postsRepository} from "../repository";
+import {postsRepository} from "../repositories/db-repository";
 import {RequestEntityId} from "../../../core/types";
 import {HTTP_STATUS_CODES} from "../../../core/constants/http-status-codes";
 
-export const deletePostHandler = (req: Request<RequestEntityId>, res: Response) => {
-    const isRemoved = postsRepository.remove(req.params.id);
+export const deletePostHandler = async (req: Request<RequestEntityId>, res: Response) => {
+    const isRemoved = await postsRepository.remove(req.params.id);
     res.sendStatus(
         isRemoved
             ? HTTP_STATUS_CODES.NO_CONTENT_204

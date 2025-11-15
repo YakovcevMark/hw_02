@@ -1,6 +1,7 @@
 import {Request, Response} from 'express'
-import {postsRepository} from "../repository";
+import {postsRepository} from "../repositories/db-repository";
 
-export const getPostsHandler = (req: Request, res: Response) => {
-    res.send(postsRepository.getAll())
+export const getPostsHandler = async (req: Request, res: Response) => {
+    const posts = await postsRepository.getAll();
+    res.send(posts)
 }

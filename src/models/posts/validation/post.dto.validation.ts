@@ -1,5 +1,5 @@
 import {idValidation, stringValidation } from "../../../core/validation";
-import {blogsRepository} from "../../blogs/repository";
+import {blogsRepository} from "../../blogs/repositories/memory-repository";
 
 export const postValidationMiddleware = [
     stringValidation({name: 'title', min: 1, max: 30}),

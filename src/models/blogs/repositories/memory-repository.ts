@@ -1,33 +1,35 @@
-import {BlogViewModel} from "./types/blog.view.model";
-import {BlogInputModel} from "./types/blog.input.model";
+import {BlogViewModel} from "../types/blog.view.model";
+import {BlogInputModel} from "../types/blog.input.model";
 
 
 class BlogsRepository {
 
     private db: BlogViewModel[] = []
 
-    public getAll = () => {
+    public  getAll = async ():Promise<BlogViewModel[]> => {
         return this.db;
     }
 
-    public isPersistInDb = (id: string) => {
+    public  isPersistInDb = async (id: string): Promise<boolean> => {
        return this.db.some(blog => blog.id === id);
     }
 
-    public getById = (id: string) => {
+    public  getById = async (id: string): Promise<BlogViewModel | undefined> => {
         return this.db.find(blog => blog.id === id);
     }
 
-    public create = (body: BlogInputModel) => {
+    public  create = async (body: BlogInputModel): Promise<BlogViewModel> => {
         const entity = {
             id: String(+new Date()),
+            createdAt: new Date().toISOString(),
+            isMembership:true,
             ...body,
         }
         this.db.push(entity);
         return entity
     }
 
-    public update = (id: string, body: BlogInputModel): boolean => {
+    public  update = async (id: string, body: BlogInputModel): Promise<boolean> => {
         const entityIndex = this.db.findIndex(blog => blog.id === id);
         if (entityIndex === -1) {
             return false;
@@ -40,14 +42,14 @@ class BlogsRepository {
         }
     }
 
-    public remove = (id: string): boolean => {
+    public  remove = async (id: string): Promise<boolean> => {
         const initLength = this.db.length;
         this.db = this.db.filter(blog => blog.id !== id);
         const resultLength = this.db.length;
         return initLength > resultLength;
     }
 
-    public clearDB = () => {
+    public  clearDB = async () => {
         this.db = [];
     }
 

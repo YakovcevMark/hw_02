@@ -7,12 +7,17 @@ import {RoutePaths} from "../src/models/paths";
 import {BlogViewModel} from "../src/models/blogs/types/blog.view.model";
 import {validationMessages} from "../src/core/validation";
 
+const auth = {
+    token: `Basic ${btoa('admin:qwerty')}`,
+    headerName: 'Authorization'
+}
 const blogCreate: BlogInputModel = {
     name: "blog Name",
     description: "blog description",
     websiteUrl: "https://google.com",
 }
 // jest.useFakeTimers({legacyFakeTimers:true})
+
 describe(RoutePaths.blogs, () => {
     const app = express();
     let createdBlog: BlogViewModel | null = null;
@@ -25,6 +30,7 @@ describe(RoutePaths.blogs, () => {
         await request(app).delete("/testing/all-data").expect(HTTP_STATUS_CODES.NO_CONTENT_204)
     });
 
+
     it('getAll', async () => {
         const resp = await getAll()
         expect(resp.status).toBe(HTTP_STATUS_CODES.OK_200)
@@ -32,7 +38,10 @@ describe(RoutePaths.blogs, () => {
     })
 
     it('post', async () => {
-        const resp = await request(app).post(RoutePaths.blogs).send(blogCreate)
+        const resp = await request(app)
+            .post(RoutePaths.blogs)
+            .set(auth.headerName, auth.token)
+            .send(blogCreate)
         expect(resp.status).toBe(HTTP_STATUS_CODES.CREATED_201)
         expect(resp.body.name).toBe(blogCreate.name)
         expect(resp.body.description).toBe(blogCreate.description)
@@ -44,7 +53,10 @@ describe(RoutePaths.blogs, () => {
     })
 
     it('post with incorrect name:', async () => {
-        const resp = await request(app).post(RoutePaths.blogs).send({...blogCreate, name: '             '})
+        const resp = await request(app)
+            .post(RoutePaths.blogs)
+            .set(auth.headerName, auth.token)
+            .send({...blogCreate, name: '             '})
 
 
         expect(resp.status).toBe(HTTP_STATUS_CODES.CLIENT_ERROR_400)
@@ -52,11 +64,7 @@ describe(RoutePaths.blogs, () => {
             errorsMessages: [
                 {
                     field: 'name',
-                    message: validationMessages.stringField
-                },
-                {
-                    field: 'name',
-                    message: validationMessages.stringMaxLength(15)
+                    message: validationMessages.stringMinLength(1)
                 }
             ]
         })
@@ -70,10 +78,15 @@ describe(RoutePaths.blogs, () => {
     })
 
     it('should delete entity by id', async () => {
-        await request(app).delete(`${RoutePaths.blogs}${createdBlog?.id}`).expect(HTTP_STATUS_CODES.NO_CONTENT_204)
+        await request(app).delete(`${RoutePaths.blogs}${createdBlog?.id}`)
+            .set(auth.headerName, auth.token)
+            .expect(HTTP_STATUS_CODES.NO_CONTENT_204)
     })
 
     it("shouldn't get entity by id after deleting", async () => {
         await request(app).get(`${RoutePaths.blogs}${createdBlog?.id}`).expect(HTTP_STATUS_CODES.NOT_FOUND_404)
+    })
+    it("should clear DB", async () => {
+        await request(app).delete(`/testing/all-data`).expect(HTTP_STATUS_CODES.NO_CONTENT_204)
     })
 })
