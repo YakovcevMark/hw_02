@@ -32,7 +32,7 @@ class PostsRepository {
         const entity = {
             id: String(+new Date()),
             blogName: blog!.name,
-            createdAt: new Date().toString(),
+            createdAt: new Date().toISOString(),
             ...body,
         }
         const result = await postsCollection.insertOne(entity);
@@ -51,8 +51,9 @@ class PostsRepository {
                     _id: new ObjectId(id)
                 },
                 {
-                    ...post,
-                    ...body
+                    $set:{
+                        ...body
+                    },
                 }
             );
             return true;

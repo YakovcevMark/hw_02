@@ -1,7 +1,7 @@
 import {BlogViewModel} from "../types/blog.view.model";
 import {BlogInputModel} from "../types/blog.input.model";
 import {blogsCollection} from "../../../db-settings";
-import {ObjectId, WithId} from "mongodb";
+import {ObjectId} from "mongodb";
 import {getMongoViewModel} from "../../../core/utils/get-view-model";
 
 
@@ -53,8 +53,9 @@ class BlogsRepository {
                     _id: new ObjectId(id)
                 },
                 {
-                    ...blog,
-                    ...body
+                    $set: {
+                        ...body
+                    },
                 }
             );
             return true;
