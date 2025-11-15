@@ -3,12 +3,11 @@ import {setupApp} from "./setup-app";
 
 // создание приложения
 const app = express();
-setupApp(app)
+setupApp(app).then(() => {
+    const PORT = process.env.PORT || 5001;
 
-// порт приложения
-const PORT = process.env.PORT || 5001;
+    app.listen(PORT, () => {
+        console.log(`Example app listening on port ${PORT}`);
+    });
+})
 
-// запуск приложения
-app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`);
-});

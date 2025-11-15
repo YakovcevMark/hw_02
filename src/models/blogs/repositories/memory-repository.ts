@@ -22,7 +22,7 @@ class BlogsRepository {
         const entity = {
             id: String(+new Date()),
             createdAt: new Date().toISOString(),
-            isMembership:true,
+            isMembership:false,
             ...body,
         }
         this.db.push(entity);

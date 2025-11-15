@@ -7,10 +7,10 @@ import {blogsRouter} from "./models/blogs/routes";
 import {postsRouter} from "./models/posts/routes";
 import {connectToDatabase} from "./db-settings";
 
-export const setupApp = (app: Express) => {
+export const setupApp = async (app: Express) => {
     app.use(express.json());
 
-    connectToDatabase();
+    await connectToDatabase();
 
     app.use(RoutePaths.blogs, blogsRouter)
     app.use(RoutePaths.posts, postsRouter)
