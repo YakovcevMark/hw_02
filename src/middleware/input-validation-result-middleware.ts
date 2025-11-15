@@ -14,7 +14,9 @@ export const inputValidationResultMiddleware = (
     res: Response,
     next: NextFunction
 ) => {
-    const errors = validationResult(req).formatWith((error) => formatErrors(error as FieldValidationError)).array({onlyFirstError: true});
+    const errors = validationResult(req)
+        .formatWith((error) => formatErrors(error as FieldValidationError))
+        .array({ onlyFirstError: true });
 
     if (errors.length) {
         return res.status(HTTP_STATUS_CODES.CLIENT_ERROR_400).json({errorsMessages: errors});
